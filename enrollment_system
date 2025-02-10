@@ -1,8 +1,27 @@
--- Description: 
--- Author:
--- Date:
+-- Description: Enrollment System
+-- Author: DC Elliott
+-- Date: Feb. 10, 2025
+
+-- It will be assumed postgres has already been downloaded on your computer and the CLI client 
+--  will be used to enter commands.
+
+-- In your terminal enter:
+--      psql postgres
+-- to open the postgres session.
+
+-- Step 1: Create the database. This database 'enrollment_system' will be created
+--  with user 'university_admin' and password '123!Temp'. This allows these commands
+--  to be created by any third party even those with default user/password stipulations 
+--  or partitioning.
+
 CREATE USER university_admin WITH PASSWORD '123!Temp';
 CREATE DATABASE enrollment_system WITH OWNER university_admin;
+
+-- In your terminal enter: 
+--      \c enrollment_system
+-- to connect to the new database.
+
+-- Step 2: Create the Tables:
 
 CREATE TABLE students (
     student_id SERIAL PRIMARY KEY,
@@ -33,6 +52,12 @@ CREATE TABLE enrollments (
     PRIMARY KEY (student_id,course_id)
 );
 
+-- In your terminal enter: 
+--      \dt
+-- to confirm the new tables.
+
+-- Step 3: Enter the data:
+
 INSERT INTO students(first_name, last_name, email, school_enrollment_date) VALUES
     ('Jeff', 'Winger', 'j.winger@greendale.com', '2009-09-07'),
     ('Britta', 'Perry', 'b.perry@greendale.com', '2007-09-01'),
@@ -48,7 +73,6 @@ INSERT INTO professors(first_name, last_name, department) VALUES
     ('Eustace', 'Whitman', 'Film Studies'),
     ('Michelle', 'Slater', 'Mathematics'),
     ('Craig', 'Pelton', 'Administration');
-
 
 INSERT INTO courses(course_name, course_description, prof_id) VALUES
     ('Spanish 101', 'Introduction to the Spanish language.', (SELECT prof_id FROM professors WHERE department = 'Spanish')),
@@ -69,5 +93,7 @@ INSERT INTO enrollments(student_id, course_id, enrollment_date) VALUES
     ((SELECT student_id FROM students WHERE first_name = 'Shirley' AND last_name = 'Bennett'), (SELECT course_id FROM courses WHERE course_name = 'Film Studies 105'), '2009-09-12');
 
 
+-- Perform the tasks:
+--  SQL Queries:
 
 
