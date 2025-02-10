@@ -1,4 +1,4 @@
--- Description: Enrollment System
+-- Description: Enrollment System for a fictional university
 -- Author: DC Elliott
 -- Date: Feb. 10, 2025
 
@@ -95,5 +95,34 @@ INSERT INTO enrollments(student_id, course_id, enrollment_date) VALUES
 
 -- Perform the tasks:
 --  SQL Queries:
+--  Returns full name of all students in Physics 101.
 
-SELECT 
+SELECT first_name || ' ' || last_name AS full_name FROM students
+    JOIN enrollments ON students.student_id = enrollments.student_id
+    JOIN courses ON enrollments.course_id = courses.course_id
+    WHERE course_name = 'Physics 101';
+
+--  Returns list of all courses along with full name of professors.
+
+SELECT course_name, first_name || ' ' || last_name AS full_name
+    FROM courses
+    JOIN professors ON professors.prof_id = courses.prof_id;
+
+
+-- Update data:
+--  Changes the email of a student. 
+
+UPDATE students
+    SET email = 'justAbid@greendate.com'
+    WHERE first_name = 'Abid' AND last_name = 'Nadir';
+
+-- Delete data:
+--  Removes 'Pierce Hawthorne' from Physics 101.
+
+DELETE FROM enrollments
+    USING students, courses
+    WHERE enrollments.student_id = students.student_id
+    AND enrollments.course_id = courses.course_id
+    AND first_name = 'Pierce'
+    AND last_name = 'Hawthorne'
+    AND course_name = 'Physics 101';
