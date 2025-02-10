@@ -71,14 +71,14 @@ INSERT INTO professors(first_name, last_name, department) VALUES
     ('Ben', 'Chang', 'Spanish'),
     ('Ian', 'Duncan', 'Psychology'),
     ('Eustace', 'Whitman', 'Film Studies'),
-    ('Michelle', 'Slater', 'Mathematics'),
+    ('Michelle', 'Slater', 'Physics'),
     ('Craig', 'Pelton', 'Administration');
 
 INSERT INTO courses(course_name, course_description, prof_id) VALUES
-    ('Spanish 101', 'Introduction to the Spanish language.', (SELECT prof_id FROM professors WHERE department = 'Spanish')),
     ('Psychology 101', 'Introduction to human psychology.', (SELECT prof_id FROM professors WHERE department = 'Psychology')),
-    ('Mathematics 101', 'Introduction to statistics.',  (SELECT prof_id FROM professors WHERE department = 'Mathematics')),
-    ('Film Studies 105', 'Introduction to the Sitcom.',  (SELECT prof_id FROM professors WHERE department = 'Film Studies'));
+    ('Spanish 101', 'Introduction to the Spanish language.', (SELECT prof_id FROM professors WHERE department = 'Spanish')),
+    ('Physics 101', 'Introduction to physics.',  (SELECT prof_id FROM professors WHERE department = 'Physics')),
+    ('Film Studies 105', 'Introduction to the sitcom.',  (SELECT prof_id FROM professors WHERE department = 'Film Studies'));
 
 INSERT INTO enrollments(student_id, course_id, enrollment_date) VALUES
     ((SELECT student_id FROM students WHERE first_name = 'Jeff' AND last_name = 'Winger'), (SELECT course_id FROM courses WHERE course_name = 'Film Studies 105'), '2009-09-15'),
@@ -87,8 +87,8 @@ INSERT INTO enrollments(student_id, course_id, enrollment_date) VALUES
     ((SELECT student_id FROM students WHERE first_name = 'Troy' AND last_name = 'Barnes'), (SELECT course_id FROM courses WHERE course_name = 'Spanish 101'), '2009-09-12'),
     ((SELECT student_id FROM students WHERE first_name = 'Abid' AND last_name = 'Nadir'), (SELECT course_id FROM courses WHERE course_name = 'Spanish 101'), '2009-09-12'),
     ((SELECT student_id FROM students WHERE first_name = 'Pierce' AND last_name = 'Hawthorne'), (SELECT course_id FROM courses WHERE course_name = 'Spanish 101'), '2008-09-12'),
-    ((SELECT student_id FROM students WHERE first_name = 'Pierce' AND last_name = 'Hawthorne'), (SELECT course_id FROM courses WHERE course_name = 'Mathematics 101'), '2008-09-11'),
-    ((SELECT student_id FROM students WHERE first_name = 'Annie' AND last_name = 'Edison'), (SELECT course_id FROM courses WHERE course_name = 'Mathematics 101'), '2009-09-01'),
+    ((SELECT student_id FROM students WHERE first_name = 'Pierce' AND last_name = 'Hawthorne'), (SELECT course_id FROM courses WHERE course_name = 'Physics 101'), '2008-09-11'),
+    ((SELECT student_id FROM students WHERE first_name = 'Annie' AND last_name = 'Edison'), (SELECT course_id FROM courses WHERE course_name = 'Physics 101'), '2009-09-01'),
     ((SELECT student_id FROM students WHERE first_name = 'Annie' AND last_name = 'Edison'), (SELECT course_id FROM courses WHERE course_name = 'Film Studies 105'), '2009-09-01'),
     ((SELECT student_id FROM students WHERE first_name = 'Shirley' AND last_name = 'Bennett'), (SELECT course_id FROM courses WHERE course_name = 'Film Studies 105'), '2009-09-12');
 
@@ -96,4 +96,4 @@ INSERT INTO enrollments(student_id, course_id, enrollment_date) VALUES
 -- Perform the tasks:
 --  SQL Queries:
 
-
+SELECT 
