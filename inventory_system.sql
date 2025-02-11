@@ -44,7 +44,7 @@ CREATE TABLE orders (
 );
 
 CREATE TABLE order_items (
-    order_id INT REFERENCES orders(order_id),
+    order_id INT REFERENCES orders(order_id) ON DELETE CASCADE,
     prod_id INT REFERENCES products(prod_id),
     quantity INT,
     PRIMARY KEY (order_id, prod_id)
@@ -82,7 +82,6 @@ INSERT INTO orders(cust_id, order_date) VALUES
     ((SELECT cust_id FROM customers WHERE first_name = 'Walter' AND last_name = 'White'), '2025-01-07');
 
 
-
 INSERT INTO order_items (order_id, prod_id, quantity) VALUES
     (1, (SELECT prod_id FROM products WHERE prod_name = 'T-shirt'), 2),
     (1, (SELECT prod_id FROM products WHERE prod_name = 'Sweat pants'), 1),
@@ -101,4 +100,41 @@ INSERT INTO order_items (order_id, prod_id, quantity) VALUES
     (6, (SELECT prod_id FROM products WHERE prod_name = 'Hoodie'), 3),
     (6, (SELECT prod_id FROM products WHERE prod_name = 'Socks'), 10);
 
+
+-- Perform the tasks:
+--  SQL Queries:
+
+--  Return names of all products and the relevant stock quantity:
+
+SELECT prod_name, stock_quantity FROM products;
+
+--  Return the products and amounts of one order (order 6 in this example):
+
+SELECT prod_name, quantity FROM products
+    JOIN order_items ON order_items.prod_id = products.prod_id
+    WHERE order_id = 6;
+
+--  Return the orders (including prod_id and quantites) for a customer: 
+
+SELECT last_name || ', ' || first_name AS full_name, orders.order_id, prod_id, quantity FROM order_items
+    JOIN orders ON order_items.order_id = orders.order_id
+    JOIN customers ON orders.cust_id = customers.cust_id
+    WHERE (SELECT first_name = 'Elvis' AND last_name = 'Presley'); 
+
+--  Update data for stock_quantity of products after order_id 4 has been shipped
+--  (Inventory will be reduced by 10 Ball caps, 10 tupues, 5 socks):
+
+UPDATE products
+    SET stock_quantity = stock_quantity - order_items.quantity
+    FROM order_items
+    WHERE products.prod_id = order_items.prod_id
+    AND order_items.order_id = 4;
+
+
+-- Delete an order and all associated order_items. Order_id 6 will be deleted and due to the
+-- ON DELETE CASCADE included in the order_id relation in order-item, all order_items associated  
+-- with 6 will also be deleted.
+
+DELETE FROM orders
+    WHERE order_id = 6;
 
